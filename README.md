@@ -34,10 +34,8 @@ I cannot promise that it would really be a 'working" leaderboard site without lo
 
 ## Project Wireframe
 
-TODO: Replace the wireframe below with you own design.
-
-![wireframe](wireframe-example.png)
-
+ Replace the wireframe below with your own design.
+ 
 
 Leaderboard Section:
 
@@ -73,4 +71,20 @@ https://app.moqups.com/7TVjVr1VqYQhvYVl5UW3cmGVHz8aBMll/view/page/ad64222d5
 Picture:
 
 ![image](https://github.com/user-attachments/assets/e926b802-7c49-40fa-98d9-c3dff434c550)
+
+
+Forum area:
+
+Link:
+
+https://app.moqups.com/thxACATJTmSK3zGSRtxcdOwqChOaGl6g/view/page/ad64222d5
+
+Picture:
+
+![image](https://github.com/user-attachments/assets/49901aac-f151-44cf-9bde-4576242b46b9)
+
+P.S. This is by far the section of the project im the most shaky on. I don't even know if this *will* be my fourth page, its just what I have for now.
+
+
+
 
