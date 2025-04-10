@@ -37,3 +37,15 @@ I cannot promise that it would really be a 'working" leaderboard site without lo
 TODO: Replace the wireframe below with you own design.
 
 ![wireframe](wireframe-example.png)
+
+
+Leaderboard Section:
+
+Link:
+
+https://app.moqups.com/QOCtH5WYfgJSpqKcgEnz8EN76IAxxloG/view/page/ad64222d5
+
+Picture:
+
+![image](https://github.com/user-attachments/assets/4b1030bd-6e58-4b06-9586-b2d1b7a0e7e0)
+
