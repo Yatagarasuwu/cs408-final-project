@@ -54,10 +54,23 @@ Picture:
 Match Report Form:
 
 Link:
+
 https://app.moqups.com/1tuIZ2ujPQvqqmMkpkBsZ0Gwce8bQccY/view/page/ad64222d5
 
 Picture:
+
 ![image](https://github.com/user-attachments/assets/dc0558af-e4c6-4574-974a-97f1a6403ee2)
 
 
 P.S. I don't fully like this design, I will definitely change it at somepoint.. Something about having the full page be a form is off...
+
+Match History Page:
+
+Link:
+
+https://app.moqups.com/7TVjVr1VqYQhvYVl5UW3cmGVHz8aBMll/view/page/ad64222d5
+
+Picture:
+
+![image](https://github.com/user-attachments/assets/e926b802-7c49-40fa-98d9-c3dff434c550)
+
