@@ -17,24 +17,6 @@
         <!-- Table will be dynamically loaded here -->
     </div>
 
-    <!-- <hr>
-    <button id="send-data">Send Data</button>
-    <p>Sends an example JSON object to the server with id 11111</p>
-    <script>
-        document.getElementById("send-data").onclick = function () {
-            let xhr = new XMLHttpRequest();
-            xhr.open("PUT", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/items");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify({
-                "id": "6666666",
-                "price": 19,
-                "name": "test put value"
-            }));
-        }
-    </script> -->
-
-     
-    <!-- <p>Loads data from the server</p> -->
     <script>
         document.getElementById("load-data").onclick = function () {
             let lambda = document.getElementById("lambda-info");
@@ -63,7 +45,7 @@
                                 <td>${match.gameName}</td>
                                 <td>${match.matchDate}</td>
                                 <td>${match.matchNotes || "N/A"}</td>
-                                <td><button onclick="deleteMatch('${match.matchId}')">Delete</button></td>
+                                <td><button onclick="deleteMatch('${match.matchId}')">Delete(ripge)</button></td>
                               </tr>`;
                 });
                 table += `</table>`;
@@ -72,22 +54,13 @@
             xhr.open("GET", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
             xhr.send();
         };
-
-        function deleteMatch(matchId) {
-            let xhr = new XMLHttpRequest();
-            xhr.open("DELETE", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match/${matchId}`);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send();
-            document.getElementById("load-data").click();  // similar to before if you saw that :)
-        }
     </script>
 
-    <hr>
-    <!-- Removed the "Add New Item to Database" section -->
-
-    <hr>
     <h2>Report a Match</h2>
     <form id="match-report-form">
+        <label for="match-id">Match ID:</label>
+        <input type="text" id="match-id" name="match-id" required><br><br>
+
         <label for="player1-id">Player/Team 1 ID:</label>
         <input type="text" id="player1-id" name="player1-id" required><br><br>
 
@@ -114,9 +87,9 @@
         </div>
     </form>
 
-    
     <script>
         document.getElementById("submit-match").onclick = function () {
+            const matchId = document.getElementById("match-id").value;  // User provided for now, prolly should change lmfao
             const player1Id = document.getElementById("player1-id").value;
             const player2Id = document.getElementById("player2-id").value;
             const player1Score = parseInt(document.getElementById("player1-score").value);
@@ -125,32 +98,38 @@
             const matchDate = document.getElementById("match-date").value;
             const matchNotes = document.getElementById("match-notes").value;
 
-            const matchData = {
-                player1Id,
-                player2Id,
-                player1Score,
-                player2Score,
-                gameName,
-                matchDate,
-                matchNotes
-            };
-
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
+            xhr.open("PUT", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
             xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify(matchData));
+            xhr.send(JSON.stringify({
+                matchId: matchId,
+                player1Id: player1Id,
+                player2Id: player2Id,
+                player1Score: player1Score,
+                player2Score: player2Score,
+                gameName: gameName,
+                matchDate: matchDate,
+                matchNotes: matchNotes
+            }));
 
             xhr.onload = function () {
-                if (xhr.status === 200) {
-                    alert("Match reported successfully!");
-                    document.getElementById("match-report-form").reset();
-                    document.getElementById("load-data").click(); // Refresh leaderboard
-                } else {
-              
-                }
+                document.getElementById("load-data").click(); // Akin to before :)
             };
         };
     </script>
+
+<script>
+    function deleteMatch(matchId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("DELETE", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match/${matchId}`);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send();
+        xhr.onload = function () {
+            document.getElementById("load-data").click(); // Refresh the table automatically
+        };
+    }
+</script>
+  
 </body>
 
 </html>
