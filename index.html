@@ -1,18 +1,156 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>Hello World!</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Test AWS Lambda</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <h1>HTML Rocks!</h1>
-  <img src="img/compile.jpeg">
-  <script type="module" src="js/main.js"></script>
+    <h1>Match Report Form</h1>
+    <button id="load-data">Load All Matches (Temporary Useful)</button>
+    <div id="lambda-info">
+        <!-- Table will be dynamically loaded here -->
+    </div>
+
+    <!-- <hr>
+    <button id="send-data">Send Data</button>
+    <p>Sends an example JSON object to the server with id 11111</p>
+    <script>
+        document.getElementById("send-data").onclick = function () {
+            let xhr = new XMLHttpRequest();
+            xhr.open("PUT", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/items");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify({
+                "id": "6666666",
+                "price": 19,
+                "name": "test put value"
+            }));
+        }
+    </script> -->
+
+     
+    <!-- <p>Loads data from the server</p> -->
+    <script>
+        document.getElementById("load-data").onclick = function () {
+            let lambda = document.getElementById("lambda-info");
+            let xhr = new XMLHttpRequest();
+            xhr.addEventListener("load", function () {
+                const matches = JSON.parse(xhr.response);
+                let table = `<table border="1">
+                                <tr>
+                                    <th>Match ID</th>
+                                    <th>Player 1 ID</th>
+                                    <th>Player 2 ID</th>
+                                    <th>Player 1 Score</th>
+                                    <th>Player 2 Score</th>
+                                    <th>Game Name</th>
+                                    <th>Match Date</th>
+                                    <th>Notes</th>
+                                    <th>Action</th>
+                                </tr>`;
+                matches.forEach(match => {
+                    table += `<tr>
+                                <td>${match.matchId}</td>
+                                <td>${match.player1Id}</td>
+                                <td>${match.player2Id}</td>
+                                <td>${match.player1Score}</td>
+                                <td>${match.player2Score}</td>
+                                <td>${match.gameName}</td>
+                                <td>${match.matchDate}</td>
+                                <td>${match.matchNotes || "N/A"}</td>
+                                <td><button onclick="deleteMatch('${match.matchId}')">Delete</button></td>
+                              </tr>`;
+                });
+                table += `</table>`;
+                lambda.innerHTML = table;
+            });
+            xhr.open("GET", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
+            xhr.send();
+        };
+
+        function deleteMatch(matchId) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("DELETE", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match/${matchId}`);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send();
+            document.getElementById("load-data").click();  // similar to before if you saw that :)
+        }
+    </script>
+
+    <hr>
+    <!-- Removed the "Add New Item to Database" section -->
+
+    <hr>
+    <h2>Report a Match</h2>
+    <form id="match-report-form">
+        <label for="player1-id">Player/Team 1 ID:</label>
+        <input type="text" id="player1-id" name="player1-id" required><br><br>
+
+        <label for="player2-id">Player/Team 2 ID:</label>
+        <input type="text" id="player2-id" name="player2-id" required><br><br>
+
+        <label for="player1-score">Player/Team 1 Score:</label>
+        <input type="number" id="player1-score" name="player1-score" required><br><br>
+
+        <label for="player2-score">Player/Team 2 Score:</label>
+        <input type="number" id="player2-score" name="player2-score" required><br><br>
+
+        <label for="game-name">Game Name:</label>
+        <input type="text" id="game-name" name="game-name" required><br><br>
+
+        <label for="match-date">Match Date:</label>
+        <input type="date" id="match-date" name="match-date" required><br><br>
+
+        <label for="match-notes">Notes (Optional):</label>
+        <textarea id="match-notes" name="match-notes" rows="4"></textarea><br><br>
+
+        <div style="text-align: right;">
+            <button type="button" id="submit-match">Submit Match</button>
+        </div>
+    </form>
+
+    
+    <script>
+        document.getElementById("submit-match").onclick = function () {
+            const player1Id = document.getElementById("player1-id").value;
+            const player2Id = document.getElementById("player2-id").value;
+            const player1Score = parseInt(document.getElementById("player1-score").value);
+            const player2Score = parseInt(document.getElementById("player2-score").value);
+            const gameName = document.getElementById("game-name").value;
+            const matchDate = document.getElementById("match-date").value;
+            const matchNotes = document.getElementById("match-notes").value;
+
+            const matchData = {
+                player1Id,
+                player2Id,
+                player1Score,
+                player2Score,
+                gameName,
+                matchDate,
+                matchNotes
+            };
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify(matchData));
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert("Match reported successfully!");
+                    document.getElementById("match-report-form").reset();
+                    document.getElementById("load-data").click(); // Refresh leaderboard
+                } else {
+              
+                }
+            };
+        };
+    </script>
 </body>
 
 </html>

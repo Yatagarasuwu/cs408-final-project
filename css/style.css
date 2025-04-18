@@ -1,4 +1,81 @@
-h1{
-  border-color: #d3e644;
-  border-style: dashed;
+/* self explanatory styling page but heres a comment for documentation :)  */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  margin: 0;
+  padding: 20px;
 }
+
+h1 {
+  border-color: #ffffff;
+  border-style: solid;
+  padding: 14px;
+  text-align: center;
+  background-color: #1e1e1e;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background-color: #222222;
+  color: #ffffff;
+  text-align: left;
+  border: 1px solid #ffffff;
+
+}
+
+table th, table td {
+  padding: 14px;
+  border: 1px solid #ffffff;
+}
+
+table th {
+  background-color: #333334;
+}
+
+/* i dont know where  to put button stuff so its here */ 
+button {
+  background-color: #333334;
+  color: #ffffff;
+  padding: 14px 24px;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+ 
+form {
+  background-color: #222222;
+  padding: 20px;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #222222;
+  color: #ffffff;
+}
+
+form button {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+ 
