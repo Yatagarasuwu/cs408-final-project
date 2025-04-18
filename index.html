@@ -33,7 +33,6 @@
                                     <th>Game Name</th>
                                     <th>Match Date</th>
                                     <th>Notes</th>
-                                    <th>Action</th>
                                 </tr>`;
                 matches.forEach(match => {
                     table += `<tr>
@@ -45,7 +44,6 @@
                                 <td>${match.gameName}</td>
                                 <td>${match.matchDate}</td>
                                 <td>${match.matchNotes || "N/A"}</td>
-                                <td><button onclick="deleteMatch('${match.matchId}')">Delete(ripge)</button></td>
                               </tr>`;
                 });
                 table += `</table>`;
@@ -118,17 +116,17 @@
         };
     </script>
 
-<script>
+<!-- <script>
     function deleteMatch(matchId) {
         let xhr = new XMLHttpRequest();
         xhr.open("DELETE", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match/${matchId}`);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send();
         xhr.onload = function () {
-            document.getElementById("load-data").click(); // Refresh the table automatically
+            document.getElementById("load-data").click(); // Refresh  :)
         };
     }
-</script>
+</script> -->
   
 </body>
 
