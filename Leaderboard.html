@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Leaderboard</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>Leaderboard</h1>
+    <button id="load-leaderboard">Load Full Leaderboard</button>
+    <div id="leaderboard-info">
+        <!-- Table will be dynamically loaded here -->
+    </div>
+
+    <h2>Search Leaderboard</h2>
+    <form id="leaderboard-search-form">
+        <label for="player-id">Search by Player ID:</label>
+        <input type="text" id="player-id" name="player-id"><br><br>
+
+        <label for="position">Search by Placement:</label>
+        <input type="number" id="position" name="position"><br><br>
+
+        <label for="rating">Search by Elo Rating:</label>
+        <input type="number" id="rating" name="rating"><br><br>
+
+        <div style="text-align: right;">
+            <button type="button" id="search-leaderboard">Search</button>
+        </div>
+    </form>
+
+    <script>
+        // load the leaderboard fully for convenience lol
+    document.getElementById("load-leaderboard").onclick = function () {
+        loadLeaderboard();
+    };
+
+    // search the leaderboard: the big important thing. This was a mess..
+    document.getElementById("search-leaderboard").onclick = function () {
+        const playerId = document.getElementById("player-id").value.trim();
+        const position = document.getElementById("position").value.trim();
+        const rating = document.getElementById("rating").value.trim();
+
+        let queryString = "";
+        if (playerId) queryString += `playerId=${playerId}&`;
+        if (position) queryString += `position=${position}&`;
+        if (rating) queryString += `rating=${rating}`;
+
+        if (queryString.endsWith("&")) {
+            queryString = queryString.slice(0, -1); // aaa remote this shit
+        }
+
+        loadLeaderboard(queryString ? `?${queryString}` : "");
+    };
+
+    function loadLeaderboard(queryString = "") {
+        let leaderboardDiv = document.getElementById("leaderboard-info");
+        let xhr = new XMLHttpRequest();
+        xhr.addEventListener("load", function () {
+            const players = JSON.parse(xhr.response);
+            let table = `<table border="1">
+                            <tr>
+                                <th>Position</th>
+                                <th>Player/Team</th>
+                                <th>Elo Rating</th>
+                            </tr>`;
+            players.forEach(player => {
+                table += `<tr>
+                            <td>${player.position}</td>
+                            <td>${player.playerId}</td>
+                            <td>${player.elo}</td>
+                          </tr>`;
+            });
+            table += `</table>`;
+            leaderboardDiv.innerHTML = table;
+        });
+        xhr.open("GET", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/leaderboard${queryString}`);
+        xhr.send();
+    }
+</script>
+
+     
+    </script>
+
+</body>
+
+</html>

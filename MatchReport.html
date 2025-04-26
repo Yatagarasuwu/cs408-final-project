@@ -110,23 +110,25 @@
                 matchNotes: matchNotes
             }));
 
+            // xhr.onload = function () { // OLD!
+            //     document.getElementById("load-data").click(); // Akin to before :)
+            // };
+
+
+            // IMPORTANT NEW ADDITION FOR MATCHREPORT CHECKPOINT 2
             xhr.onload = function () {
-                document.getElementById("load-data").click(); // Akin to before :)
-            };
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.response);
+            alert(`Match reported successfully!\nPlayer 1 New Elo: ${response.player1NewElo}\nPlayer 2 New Elo: ${response.player2NewElo}`);
+            document.getElementById("load-data").click(); // refresh match table akin to before :)
+        } else {
+            alert("Error reporting match: " + xhr.responseText);
+        }
+    };
         };
     </script>
 
-<!-- <script>
-    function deleteMatch(matchId) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("DELETE", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match/${matchId}`);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send();
-        xhr.onload = function () {
-            document.getElementById("load-data").click(); // Refresh  :)
-        };
-    }
-</script> -->
+ 
   
 </body>
 

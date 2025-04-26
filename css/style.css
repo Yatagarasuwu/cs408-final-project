@@ -45,6 +45,17 @@ button {
   font-size: 16px;
 }
 
+/* NEW TO CHECKPOINT 2! BUTTON EFFECT STUFF */
+button:hover {
+  background-color: #444444; /* Slightly lighter background on hover */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+button:active {
+  background-color: #555555;  
+ 
+}
+
  
 form {
   background-color: #222222;
