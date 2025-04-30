@@ -51,7 +51,7 @@
         if (rating) queryString += `rating=${rating}`;
 
         if (queryString.endsWith("&")) {
-            queryString = queryString.slice(0, -1); // aaa remote this shit
+            queryString = queryString.slice(0, -1); // aaaa remove the and thingy
         }
 
         loadLeaderboard(queryString ? `?${queryString}` : "");
