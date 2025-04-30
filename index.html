@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MY AWESOME REQUIRED INDEX SEPERATE FROM MATCH REPORT FORM</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>MY AWESOME REQUIRED INDEX SEPERATE FROM MATCH REPORT FORM</h1>
+    <button id="load-data">Load Everything LMAO</button>
+    <div id="lambda-info">
+        <!-- Table will be dynamically loaded here -->
+    </div>
+
+
+    
+    <script>
+        // This was supposed to be the easy page of the project.. I had to introduce promise all because it was bugging otherwise...
+        document.getElementById("load-data").onclick = function () {
+            let lambda = document.getElementById("lambda-info");
+            lambda.innerHTML = ""; // Clear previous content
+    
+            // promises NEEDED omg so much better
+            const matchesPromise = new Promise((resolve, reject) => {
+                let xhrMatches = new XMLHttpRequest();
+                xhrMatches.addEventListener("load", function () {
+                    if (xhrMatches.status === 200) {
+                        resolve(JSON.parse(xhrMatches.response));
+                    } else {
+                        reject("rejected lol idk why");
+                    }
+                });
+                xhrMatches.open("GET", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
+                xhrMatches.send();
+            });
+    
+            const leaderboardPromise = new Promise((resolve, reject) => {
+                let xhrLeaderboard = new XMLHttpRequest();
+                xhrLeaderboard.addEventListener("load", function () {
+                    if (xhrLeaderboard.status === 200) {
+                        resolve(JSON.parse(xhrLeaderboard.response));
+                    } else {
+                        reject("rejected lol idk why");
+                    }
+                });
+                xhrLeaderboard.open("GET", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/leaderboard");
+                xhrLeaderboard.send();
+            });
+    
+            const itemsPromise = new Promise((resolve, reject) => {
+                let xhrItems = new XMLHttpRequest();
+                xhrItems.addEventListener("load", function () {
+                    if (xhrItems.status === 200) {
+                        resolve(JSON.parse(xhrItems.response));
+                    } else {
+                        reject("rejected lol idk why");
+                    }
+                });
+                xhrItems.open("GET", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/items");
+                xhrItems.send();
+            });
+    
+            // PROMSE.ALL SO IT ACTUALLY WORKS YAY
+            Promise.all([matchesPromise, leaderboardPromise, itemsPromise])
+                .then(([matches, players, items]) => {
+                    // matches table stuff, mostly taken from other html files
+                    let matchTable = `<h2>Matches</h2><table border="1">
+                                        <tr>
+                                            <th>Match ID</th>
+                                            <th>Player 1 ID</th>
+                                            <th>Player 2 ID</th>
+                                            <th>Player 1 Score</th>
+                                            <th>Player 2 Score</th>
+                                            <th>Game Name</th>
+                                            <th>Match Date</th>
+                                            <th>Notes</th>
+                                        </tr>`;
+                    matches.forEach(match => {
+                        matchTable += `<tr>
+                                        <td>${match.matchId}</td>
+                                        <td>${match.player1Id}</td>
+                                        <td>${match.player2Id}</td>
+                                        <td>${match.player1Score}</td>
+                                        <td>${match.player2Score}</td>
+                                        <td>${match.gameName}</td>
+                                        <td>${match.matchDate}</td>
+                                        <td>${match.matchNotes || "N/A"}</td>
+                                      </tr>`;
+                    });
+                    matchTable += `</table>`;
+                    lambda.innerHTML += matchTable;
+    
+                    // leaderboard stolen as well
+                    let leaderboardTable = `<h2>Leaderboard</h2><table border="1">
+                                                <tr>
+                                                    <th>Position</th>
+                                                    <th>Player/Team</th>
+                                                    <th>Elo Rating</th>
+                                                </tr>`;
+                    players.forEach(player => {
+                        leaderboardTable += `<tr>
+                                                <td>${player.position}</td>
+                                                <td>${player.playerId}</td>
+                                                <td>${player.elo}</td>
+                                              </tr>`;
+                    });
+                    leaderboardTable += `</table>`;
+                    lambda.innerHTML += leaderboardTable;
+    
+                    // finally, stolen from lab 11.
+                    let itemsTable = `<h2>Items</h2><table border="1">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Price</th>
+                                            <th>Action</th>
+                                        </tr>`;
+                    items.forEach(item => {
+                        itemsTable += `<tr>
+                                        <td>${item.id}</td>
+                                        <td>${item.name}</td>
+                                        <td>${item.price}</td>
+                                        <td><button onclick="deleteRow(this, 'item', '${item.id}')">Delete requirement smile </button></td>
+                                      </tr>`;
+                    });
+                    itemsTable += `</table>`;
+                    lambda.innerHTML += itemsTable;
+                })
+                .catch(error => {
+                    console.error("error womp womp :", error);
+                    lambda.innerHTML = `<p>yea </p>`;
+                });
+        };
+    
+        function deleteRow(button, type, id) {
+            if (type !== 'item') {
+                alert("how did you get here");
+                return;
+            }
+    
+            let xhr = new XMLHttpRequest();
+            let url = `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/items/${id}`;
+    
+            xhr.open("DELETE", url);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send();
+    
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // delete that item
+                    let row = button.parentElement.parentElement;
+                    row.parentElement.removeChild(row);
+                } else {
+                    alert("Error deleting item: " + xhr.responseText);
+                }
+            };
+        }
+    </script>
+
+
+<h2>ADD ITEM TO LAB 11 ITEMS DATABASE SINCE REQUIREMENTS REQUIRE INDEX TO BE ABLE TO ADD TO AWS </h2>
+<form id="add-item-form">
+    <label for="item-id">ID:</label><br>
+    <input type="text" id="item-id" name="item-id"><br><br>
+    <label for="item-name">Name:</label><br>
+    <input type="text" id="item-name" name="item-name"><br><br>
+    <label for="item-price">Price:</label><br>
+    <input type="number" id="item-price" name="item-price"><br><br>
+    <button type="button" id="add-item">Add Item</button>
+</form>
+
+<script>
+    document.getElementById("add-item").onclick = function () {
+        const id = document.getElementById("item-id").value;
+        const name = document.getElementById("item-name").value;
+        const price = document.getElementById("item-price").value;
+        let xhr = new XMLHttpRequest();
+        xhr.open("PUT", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/items");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({
+            "id": id,
+            "name": name,
+            "price": parseFloat(price)
+        }));
+
+        xhr.onload = function () {   
+                document.getElementById("load-data").click(); 
+        };
+    }
+</script>
+</body>
+
+</html>
