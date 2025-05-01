@@ -1,0 +1,108 @@
+ /* Super chill CSS page. The colors, again, were taken from Coloors.co and lighthouse tested. I like how it turned out, even if its unconventional. */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #5a403e;  
+  color: #e0f2b6;  
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  border-color: #e0f2b6; 
+  padding: 14px;
+  text-align: center;
+  color: #e0f2b6; 
+} 
+
+/* i dont know where  to put button stuff so its here */
+button {
+  background-color: #f9c8a8;  
+  color: #5a403e;  
+  padding: 14px 24px;
+  border: 2px solid #e0f2b6;  
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* NEW TO CHECKPOINT 2! BUTTON EFFECT STUFF */
+button:hover {
+  background-color: #6b6b6b;  
+  cursor: pointer;  
+}
+
+button:active {
+  background-color: #7a7a7a;  
+}
+
+form {
+  background-color: #3a2f2e;  
+  padding: 20px;
+  border: 2px solid #e0f2b6;  
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #e0f2b6;  
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #e0f2b6;  
+  border-radius: 5px;
+  background-color: #5a403e;  
+  color: #e0f2b6;  
+}
+
+nav {
+  background-color: #4a4a4a;  
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #e0f2b6; 
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background-color: #5a403e;  
+  color: #e0f2b6;  
+  text-align: left;
+  border: 1px solid #e0f2b6;  
+}
+
+table th,
+table td {
+  padding: 14px;
+  border: 1px solid #e0f2b6;  
+}
+
+table th {
+  background-color: #3a2f2e;  
+  color: #e0f2b6;  
+  font-weight: bold;
+}
+
+table tr:nth-child(even) {
+  background-color: #4a4a4a;  
+}
+
+table tr:hover {
+  background-color: #6b6b6b; 
+  cursor: pointer;
+}

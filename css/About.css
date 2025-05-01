@@ -1,0 +1,81 @@
+/* About Page CSS. 
+Probably the color scheme I am the most proud of. Otherwise, the page is pretty simple. The notable parts are the grid layout and buttons hiding content. */
+
+/* general setup package with no border */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #592941;
+  color: #ffd9da;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Unique to this page. Setup so that the grid is 4 squares so I can yap about the sections. */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.grid-item {
+  border: 2px solid #cc7178;
+  padding: 20px;
+  text-align: center;
+}
+
+.section {
+  margin-top: 10px;
+  text-align: left;
+}
+
+/* Simple button stuff. */
+.source-stuffs {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.source-stuffs button {
+  background-color: #cc7178;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.source-stuffs button:hover {
+  background-color: #a8565e;
+}
+
+/* useful for html part to hide and unhide here */
+.hidden {
+  display: none;
+}
+
+/* general nav package with new colors */
+nav {
+  background-color: #cc7178;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #ffffff;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}

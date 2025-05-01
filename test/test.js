@@ -33,3 +33,26 @@ QUnit.module('calcElo', function() {
     });
 
 });
+
+import { cleanPut } from '../js/main.js';
+QUnit.module('cleanPut', function() {
+    QUnit.test('cleanPut needs to change script tags into their counterpart', function(assert) {
+      const input = " <script>alert('XSS')</script> ";
+      const sanitized = cleanPut(input);
+      assert.equal(sanitized, "&lt;script&gt;alert('XSS')&lt;/script&gt;", 'IMPORTANT xss stuff. This needs to not work or it would be cooked.');
+    });
+  
+    QUnit.test('cleanPut should trim', function(assert) {
+      const input = "   hello   ";
+      const sanitized = cleanPut(input);
+      assert.equal(sanitized, "hello", 'Whitespace is trimmed i believe');
+    });
+  
+    QUnit.test('cleanPut empty input check', function(assert) {
+      const input = "";
+      const sanitized = cleanPut(input);
+      assert.equal(sanitized, "", 'empty input should be nothing');
+    });
+  
+     
+});

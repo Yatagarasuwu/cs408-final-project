@@ -1,135 +1,140 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Match Report Form</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/MatchReport.css" />
+    <script type="module" src="js/main.js"></script>
+  </head>
 
-<body>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="MatchReport.html">Match Report</a>
+      <a href="MatchHistory.html">Match History</a>
+      <a href="Leaderboard.html">Leaderboard</a>
+      <a href="About.html">About</a>
+    </nav>
     <h1>Match Report Form</h1>
-    
-    <div id="lambda-info">
-        <!-- Table will be dynamically loaded here -->
-    </div>
 
-    <script>
-        document.getElementById("load-data").onclick = function () {
-            let lambda = document.getElementById("lambda-info");
-            let xhr = new XMLHttpRequest();
-            xhr.addEventListener("load", function () {
-                const matches = JSON.parse(xhr.response);
-                let table = `<table border="1">
-                                <tr>
-                                    <th>Match ID</th>
-                                    <th>Player 1 ID</th>
-                                    <th>Player 2 ID</th>
-                                    <th>Player 1 Score</th>
-                                    <th>Player 2 Score</th>
-                                    <th>Game Name</th>
-                                    <th>Match Date</th>
-                                    <th>Notes</th>
-                                </tr>`;
-                matches.forEach(match => {
-                    table += `<tr>
-                                <td>${match.matchId}</td>
-                                <td>${match.player1Id}</td>
-                                <td>${match.player2Id}</td>
-                                <td>${match.player1Score}</td>
-                                <td>${match.player2Score}</td>
-                                <td>${match.gameName}</td>
-                                <td>${match.matchDate}</td>
-                                <td>${match.matchNotes || "N/A"}</td>
-                              </tr>`;
-                });
-                table += `</table>`;
-                lambda.innerHTML = table;
-            });
-            xhr.open("GET", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
-            xhr.send();
-        };
-    </script>
+    <div id="lambda-info">
+      <!-- Table will be dynamically loaded here -->
+    </div>
 
     <h2>Report a Match</h2>
     <form id="match-report-form">
-        <label for="match-id">Match ID:</label>
-        <input type="text" id="match-id" name="match-id" required><br><br>
+      <label for="match-id">Match ID:</label>
+      <input type="text" id="match-id" name="match-id" required /><br /><br />
 
-        <label for="player1-id">Player/Team 1 ID:</label>
-        <input type="text" id="player1-id" name="player1-id" required><br><br>
+      <label for="player1-id">Player/Team 1 ID:</label>
+      <input
+        type="text"
+        id="player1-id"
+        name="player1-id"
+        required
+      /><br /><br />
 
-        <label for="player2-id">Player/Team 2 ID:</label>
-        <input type="text" id="player2-id" name="player2-id" required><br><br>
+      <label for="player2-id">Player/Team 2 ID:</label>
+      <input
+        type="text"
+        id="player2-id"
+        name="player2-id"
+        required
+      /><br /><br />
 
-        <label for="player1-score">Player/Team 1 Score:</label>
-        <input type="number" id="player1-score" name="player1-score" required><br><br>
+      <label for="player1-score">Player/Team 1 Score:</label>
+      <input
+        type="number"
+        id="player1-score"
+        name="player1-score"
+        required
+      /><br /><br />
 
-        <label for="player2-score">Player/Team 2 Score:</label>
-        <input type="number" id="player2-score" name="player2-score" required><br><br>
+      <label for="player2-score">Player/Team 2 Score:</label>
+      <input
+        type="number"
+        id="player2-score"
+        name="player2-score"
+        required
+      /><br /><br />
 
-        <label for="game-name">Game Name:</label>
-        <input type="text" id="game-name" name="game-name" required><br><br>
+      <label for="game-name">Game Name:</label>
+      <input type="text" id="game-name" name="game-name" required /><br /><br />
 
-        <label for="match-date">Match Date:</label>
-        <input type="date" id="match-date" name="match-date" required><br><br>
+      <label for="match-date">Match Date:</label>
+      <input
+        type="date"
+        id="match-date"
+        name="match-date"
+        required
+      /><br /><br />
 
-        <label for="match-notes">Notes (Optional):</label>
-        <textarea id="match-notes" name="match-notes" rows="4"></textarea><br><br>
+      <label for="match-notes">Notes (Optional):</label>
+      <textarea id="match-notes" name="match-notes" rows="4"></textarea
+      ><br /><br />
 
-        <div style="text-align: right;">
-            <button type="button" id="submit-match">Submit Match</button>
-        </div>
+      <div style="text-align: right">
+        <button type="button" id="submit-match">Submit Match</button>
+      </div>
     </form>
 
-    <script>
-        document.getElementById("submit-match").onclick = function () {
-            const matchId = document.getElementById("match-id").value;  // User provided for now, prolly should change lmfao
-            const player1Id = document.getElementById("player1-id").value;
-            const player2Id = document.getElementById("player2-id").value;
-            const player1Score = parseInt(document.getElementById("player1-score").value);
-            const player2Score = parseInt(document.getElementById("player2-score").value);
-            const gameName = document.getElementById("game-name").value;
-            const matchDate = document.getElementById("match-date").value;
-            const matchNotes = document.getElementById("match-notes").value;
+    <script type="module">
+      import { cleanPut } from "./js/main.js";
+      // User provided for now, prolly should change lmfao
+      document.getElementById("submit-match").onclick = function () {
+        const matchId = cleanPut(document.getElementById("match-id").value);
+        const player1Id = cleanPut(document.getElementById("player1-id").value);
+        const player2Id = cleanPut(document.getElementById("player2-id").value);
+        const player1Score = parseInt(
+          cleanPut(document.getElementById("player1-score").value)
+        );
+        const player2Score = parseInt(
+          cleanPut(document.getElementById("player2-score").value)
+        );
+        const gameName = cleanPut(document.getElementById("game-name").value);
+        const matchDate = cleanPut(document.getElementById("match-date").value);
+        const matchNotes = cleanPut(
+          document.getElementById("match-notes").value
+        );
 
-            let xhr = new XMLHttpRequest();
-            xhr.open("PUT", "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match");
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.send(JSON.stringify({
-                matchId: matchId,
-                player1Id: player1Id,
-                player2Id: player2Id,
-                player1Score: player1Score,
-                player2Score: player2Score,
-                gameName: gameName,
-                matchDate: matchDate,
-                matchNotes: matchNotes
-            }));
+        let xhr = new XMLHttpRequest();
+        xhr.open(
+          "PUT",
+          "https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match"
+        );
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(
+          JSON.stringify({
+            matchId: matchId,
+            player1Id: player1Id,
+            player2Id: player2Id,
+            player1Score: player1Score,
+            player2Score: player2Score,
+            gameName: gameName,
+            matchDate: matchDate,
+            matchNotes: matchNotes
+          })
+        );
 
-            // xhr.onload = function () { // OLD!
-            //     document.getElementById("load-data").click(); // Akin to before :)
-            // };
+        // xhr.onload = function () { // OLD!
+        //     document.getElementById("load-data").click(); // Akin to before :)
+        // };
 
-
-            // IMPORTANT NEW ADDITION FOR MATCHREPORT CHECKPOINT 2
-            xhr.onload = function () {
-        if (xhr.status === 200) {
+        // IMPORTANT NEW ADDITION FOR MATCHREPORT CHECKPOINT 2
+        xhr.onload = function () {
+          if (xhr.status === 200) {
             const response = JSON.parse(xhr.response);
-            alert(`Match reported successfully!\nPlayer 1 New Elo: ${response.player1NewElo}\nPlayer 2 New Elo: ${response.player2NewElo}`);
-            document.getElementById("load-data").click(); // refresh match table akin to before :)
-        } else {
+            alert(
+              `Match reported successfully!\nPlayer 1 New Elo: ${response.player1NewElo}\nPlayer 2 New Elo: ${response.player2NewElo}`
+            );
+          } else {
             alert("Error reporting match: " + xhr.responseText);
-        }
-    };
+          }
         };
+      };
     </script>
-
- 
-  
-</body>
-
+  </body>
 </html>

@@ -1,0 +1,140 @@
+ /* Quite a complex coloring job for the CSS. It looks pretty bad but I believe it hit all the contrasts needed. 
+ Funnily enough, this was probably the hardest page since index has EVERYTHING. */
+
+
+ 
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #136f63;
+  color: #f7e9cf;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  border-color: #f7e9cf;
+  border-style: solid;
+  padding: 14px;
+  text-align: center;
+  background-color: #136f63;
+}
+
+/* i dont know where  to put button stuff so its here */
+button {
+  background-color: #4f518c;
+  color: #ffccd7;
+  padding: 14px 24px;
+  border: 2px solid #ffffff;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* NEW TO CHECKPOINT 2! BUTTON EFFECT STUFF */
+button:hover {
+  background-color: #5a4a4c;  
+  cursor: pointer;
+}
+
+button:active {
+  background-color: #3f2f31;  
+}
+
+form {
+  background-color: #c9e3ac;
+  padding: 20px;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #4f518c;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #49393b;
+  color: #ffffff;
+}
+
+form button {
+  background-color: #4f518c;
+  color: #ffccd7;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+ 
+form button:hover {
+  background-color: #5e6099;  
+  cursor: pointer;
+}
+
+form button:active {
+  background-color: #3e4173;  
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  background-color: #4f518c;
+  color: #ffccd7;
+  text-align: left;
+  border: 1px solid #ffffff;
+}
+
+table th,
+table td {
+  padding: 14px;
+  border: 1px solid #ffffff;
+}
+
+table th {
+  background-color: #c9e3ac;
+  color: #4f518c;
+}
+
+table button {
+  background-color: #f7e9cf;
+  color: #4f518c;
+  padding: 10px 15px;
+  border: 1px solid #4f518c;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+ 
+table button:hover {
+  background-color: #e8d7b8;  
+}
+
+table button:active {
+  background-color: #d6c4a5;  
+}
+
+nav {
+  background-color: #c9e3ac;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: #4f518c;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}

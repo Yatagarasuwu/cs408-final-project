@@ -20,5 +20,5 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit"
 	},
-	"livePreview.defaultPreviewPath": "/MatchReport.html"
+	"livePreview.defaultPreviewPath": "/index.html"
 }

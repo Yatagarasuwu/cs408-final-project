@@ -7,10 +7,18 @@
     <title>Leaderboard</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/Leaderboard.css">
+    <script type="module" src="js/main.js"></script>
 </head>
 
 <body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="MatchReport.html">Match Report</a>
+        <a href="MatchHistory.html">Match History</a>
+        <a href="Leaderboard.html">Leaderboard</a>
+        <a href="About.html">About</a>
+    </nav>
     <h1>Leaderboard</h1>
     <button id="load-leaderboard">Load Full Leaderboard</button>
     <div id="leaderboard-info">
@@ -33,7 +41,8 @@
         </div>
     </form>
 
-    <script>
+    <script type="module">
+            import { cleanPut } from './js/main.js';
         // load the leaderboard fully for convenience lol
     document.getElementById("load-leaderboard").onclick = function () {
         loadLeaderboard();
@@ -41,9 +50,9 @@
 
     // search the leaderboard: the big important thing. This was a mess..
     document.getElementById("search-leaderboard").onclick = function () {
-        const playerId = document.getElementById("player-id").value.trim();
-        const position = document.getElementById("position").value.trim();
-        const rating = document.getElementById("rating").value.trim();
+        const playerId = cleanPut(document.getElementById("player-id").value.trim());
+        const position = cleanPut(document.getElementById("position").value.trim());
+        const rating = cleanPut(document.getElementById("rating").value.trim());
 
         let queryString = "";
         if (playerId) queryString += `playerId=${playerId}&`;

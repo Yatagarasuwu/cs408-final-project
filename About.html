@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>About</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/about.css" />
+  </head>
+
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="MatchReport.html">Match Report</a>
+      <a href="MatchHistory.html">Match History</a>
+      <a href="Leaderboard.html">Leaderboard</a>
+      <a href="About.html">About</a>
+    </nav>
+
+    <h1>About My ELO Project</h1>
+
+    <div class="grid-container">
+      <div class="grid-item">
+        <h2>Match History</h2>
+        <div class="section">
+          <h3>How to Use</h3>
+          <p>
+            Enter a Player ID to view their match history, Elo rating, and
+            leaderboard position.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Description</h3>
+          <p>
+            By submitting a player ID that is recognized in the database, you
+            can see that players info (ID, Position, and ELO) and their match
+            history.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Authors' Notes</h3>
+          <p>
+            I was quite sad about myself for this section, as I hadn't figured
+            out how to make it work with Elo Change and Opponent's Elo until
+            today. However, I realized that I was working with data that was
+            made before I started tracking those numbers. Thankfully, this
+            section shows the opponents' elo at the time of the match AND the
+            elo change resulting from the match
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <h2>Leaderboard</h2>
+        <div class="section">
+          <h3>How to Use</h3>
+          <p>
+            View the full leaderboard with the button at the top. You may also
+            use the form to search by Player ID, position, or Elo rating.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Description</h3>
+          <p>
+            This is the segmented display of data needed in the B- requirements.
+            Shows players based off who has the highest ELO rating from the
+            matches reported in the Match Report Form.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Authors' Notes</h3>
+          <p>
+            I'm quite happy with this section! It does basically everything I
+            set out for it to do, and the coding for it made sense both Lambda
+            and front end wise. Setting up filtering was pretty difficult, but
+            it feels like a very important concept, so I'm happy it is
+            implemented.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <h2>Match Report</h2>
+        <div class="section">
+          <h3>How to Use</h3>
+          <p>
+            Fill out the form to report a new match, including scores, players,
+            and game details.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Description</h3>
+          <p>
+            By filling out the form, users will change the ELO of their player
+            and their opponent according to the ELO algortihm. Their new elos
+            will be displayed as an alert, as well.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Authors' Notes</h3>
+          <p>
+            This was the first thing I did for the project. It was relatively
+            easy, and is adapted from LAB 11. Preferably, this would be the only
+            way for users to input stuff into the database, but index is
+            required...
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-item">
+        <h2>Index</h2>
+        <div class="section">
+          <h3>How to Use</h3>
+          <p>
+            Click the button to load all the tables, or use the form from lab 11
+            to add to my Items table. You can delete from Items as well after
+            pressing the load all button.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Description</h3>
+          <p>
+            This is a filler section required by the C- requirements. It is
+            index.html, can add to AWS items database, load all the tables
+            relevant to the project in one button, and has a way to delete
+            "Item" table entries.
+          </p>
+        </div>
+        <div class="section">
+          <h3>Authors' Notes</h3>
+          <p>
+            Setting this up was more annoying than I thought it would be, since
+            I needed to use Promise.all to make the button not janky... Overall
+            only here for requirements, doing everything in the C- section.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="source-stuffs">
+      <button id="sources-button">Sources</button>
+     
+    </div>
+
+    <div id="sources-content" class="hidden">
+     
+        <h2>Sources</h2>
+        Obviously, I used alot of the resources from this course itself. Everything listed below is outside/extraneous sources. I might have missed a couple minor Google searches or checkups, but I tried to document as much as I could.
+
+        <h3>CSS</h3>
+        <ul>
+          <li><a href="https://coolors.co/">Coolors.co</a> - This helped a TON! I used it both to make palletes, and steal other people's palletes.</li>
+          <li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/"> Flexbox Stuff </a> Sanity check mostly, lol.</li>
+          <li><a href="https://webaim.org/resources/contrastchecker/"> Contrast lighthouse check  </a> When I was still going for lighthouse stuff, I used this to see if my colors worked. I believe I got it from this class but honestly I took it from the lab 5 peer reviews.</li>
+           <li><a href ="https://www.w3schools.com/css/"> w3Schools in general CSS </a> w3schools in general was useful. This is applicable below as well, but this was the one I used the most, CSS.
+        </ul>
+      
+        <h3>JavaScript</h3>
+        <ul>
+          <li><a href="https://mattmazzola.medium.com/implementing-the-elo-rating-system-a085f178e065">ELO System Resource</a> - Used as the baseline for my ELO algorithm.</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all">Promise.all Documentation</a> - Needed so index.html doesnt turbo break.</li>
+          <li><a href="https://www.w3schools.com/js/js_validation.asp">Form Validation w3schools</a> - Part of my understanding for validating input.</li>
+          <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">XSS cheat sheet by OWASP</a> - another part of my understanding</li>
+         </ul>
+      
+        <h3>HTML</h3>
+        <ul>
+           <li><a href="https://www.w3schools.com/html/html_forms.asp">forms stuff w3schools</a> - Created forms for match reporting and leaderboard search.</li>
+           <li><a href="https://www.w3schools.com/js/js_htmldom.asp">dom stuff w3schools </a> -  Sanity check for DOM loading. barely used.</li>
+        </ul>
+      
+        
+
+         <h3> Note on Utilization of Generative AI (more importantly HOW) </h3>
+         <p> ChatGPT and Copilot were used intermittendly when creating this project. They were not used to create code, nor document anything (as my commenting style likely indicates, lol) but mainly as a debugging helper/searcher throughout the process. All code provided within the project is written by me and not generative AI.
+             An example use-case for it would be this: I was having a problem in index where the tables would load in an essentially random order, or not at all. I was trying to look up ways to fix it from our class resources / online but was getting nowhere. 
+             Therefore, I asked coPilot to tell me ways to solve this issue. It reccommended a couple solutions, including using Promise.all(). Therefore, I looked up how to use Promise.all() and implemented it. 
+             It is embarassing to talk about this, admittedly, but I feel it poignant to state that they were used. I feel like I used them in a relatively healthy manner, but overall at the end I am still a bit bitter about including them in my workflow. However, the truth is I used them, so I am stating it here
+    </div>
+     
+
+      <script>
+        document
+          .getElementById("sources-button")
+          .addEventListener("click", function () {
+            document
+              .getElementById("sources-content")
+              .classList.remove("hidden");
+            document
+              .getElementById("css-styles-content")
+              .classList.add("hidden");
+          });
+
+        document
+          .getElementById("css-styles-button")
+          .addEventListener("click", function () {
+            document
+              .getElementById("css-styles-content")
+              .classList.remove("hidden");
+            document.getElementById("sources-content").classList.add("hidden");
+          });
+      </script>
+    </div>
+  </body>
+</html>

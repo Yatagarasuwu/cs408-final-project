@@ -1,112 +1,146 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Match History</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/MatchHistory.css" />
+    <script type="module" src="js/main.js"></script>
+  </head>
 
-<body>
+  <body>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="MatchReport.html">Match Report</a>
+      <a href="MatchHistory.html">Match History</a>
+      <a href="Leaderboard.html">Leaderboard</a>
+      <a href="About.html">About</a>
+    </nav>
     <h1>Match History</h1>
     <form id="player-search-form">
-        <label for="player-id">Enter Player ID:</label>
-        <input type="text" id="player-id" name="player-id" required>
-        <button type="button" id="search-player-matches">Search</button>
+      <label for="player-id">Enter Player ID:</label>
+      <input type="text" id="player-id" name="player-id" required />
+      <button type="button" id="search-player-matches">Search</button>
     </form>
 
     <div id="player-info">
-        <!-- Player Elo and Position will be displayed here -->
+      <!-- Player Elo and Position will be displayed here -->
     </div>
 
     <div id="player-matches">
-        <!-- Matches table will be dynamically loaded here -->
+      <!-- Matches table will be dynamically loaded here -->
     </div>
 
-    <script>
-        document.getElementById("search-player-matches").onclick = function () {
-            const playerId = document.getElementById("player-id").value.trim();
-            if (!playerId) {
-                alert("Please enter a Player ID.");
-                return;
+    <script type="module">
+      import { cleanPut } from "./js/main.js";
+      document.getElementById("search-player-matches").onclick = function () {
+        event.preventDefault(); // This is here because in the case where you would search a player, then search another one, it would refresh and be annoying. Fixed.
+        const playerId = cleanPut(
+          document.getElementById("player-id").value.trim()
+        );
+
+        // im realzing now with the addition of cleanPut this is kinda redundant but whatever man
+        if (!playerId) {
+          alert("Please enter a Player ID.");
+          return;
+        }
+
+        // get the player info
+        let playerInfoDiv = document.getElementById("player-info");
+        let matchesDiv = document.getElementById("player-matches");
+        playerInfoDiv.innerHTML = "";
+        matchesDiv.innerHTML = "";
+
+        let xhrPlayer = new XMLHttpRequest();
+        xhrPlayer.addEventListener("load", function () {
+          if (xhrPlayer.status === 200) {
+            const player = JSON.parse(xhrPlayer.response);
+            playerInfoDiv.innerHTML = `<h2>Player Info</h2>
+                      <p><strong>Player ID:</strong> ${
+                        player.playerId || "Not a real player."
+                      }</p>
+            <p><strong>Elo Rating:</strong> ${
+              player.elo || "Not a real player."
+            }</p>
+            <p><strong>Leaderboard Position:</strong> ${
+              player.position || "Not a real player."
+            }</p>`;
+          } else {
+            playerInfoDiv.innerHTML = `<p>Error fetching player info: ${xhrPlayer.responseText}</p>`;
+          }
+        });
+        xhrPlayer.open(
+          "GET",
+          `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/players/${playerId}`
+        );
+        xhrPlayer.send();
+
+        // grab matches for the given player
+        let xhrMatches = new XMLHttpRequest();
+        xhrMatches.addEventListener("load", function () {
+          if (xhrMatches.status === 200) {
+            const matches = JSON.parse(xhrMatches.response);
+            // Filter matches to include only those involving the player
+            const filteredMatches = matches.filter(
+              (match) =>
+                match.player1Id === playerId || match.player2Id === playerId
+            );
+
+            if (filteredMatches.length === 0) {
+              matchesDiv.innerHTML = `<p>No matches found for Player ID: ${playerId}</p>`;
+              return;
             }
 
-            // get the player info
-            let playerInfoDiv = document.getElementById("player-info");
-            let matchesDiv = document.getElementById("player-matches");
-            playerInfoDiv.innerHTML = "";
-            matchesDiv.innerHTML = "";
-
-            let xhrPlayer = new XMLHttpRequest();
-            xhrPlayer.addEventListener("load", function () {
-                if (xhrPlayer.status === 200) {
-                    const player = JSON.parse(xhrPlayer.response);
-                    playerInfoDiv.innerHTML = `<h2>Player Info</h2>
-                      <p><strong>Player ID:</strong> ${player.playerId || "Not a real player."}</p>
-            <p><strong>Elo Rating:</strong> ${player.elo || "Not a real player."}</p>
-            <p><strong>Leaderboard Position:</strong> ${player.position || "Not a real player."}</p>`;
-                } else {
-                    playerInfoDiv.innerHTML = `<p>Error fetching player info: ${xhrPlayer.responseText}</p>`;
-                }
-            });
-            xhrPlayer.open("GET", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/players/${playerId}`);
-            xhrPlayer.send();
-
-            // grab matches for the given player
-            let xhrMatches = new XMLHttpRequest();
-            xhrMatches.addEventListener("load", function () {
-                if (xhrMatches.status === 200) {
-                    const matches = JSON.parse(xhrMatches.response);
-                    // Filter matches to include only those involving the player
-                    const filteredMatches = matches.filter(match => 
-                        match.player1Id === playerId || match.player2Id === playerId
-                    );
-
-                    if (filteredMatches.length === 0) {
-                        matchesDiv.innerHTML = `<p>No matches found for Player ID: ${playerId}</p>`;
-                        return;
-                    }
-
-                    let table = `<h2>Player Matches</h2>
+            let table = `<h2>Player Matches</h2>
                         <table border="1">
                             <tr>
                                 <th>Timestamp</th>
-                                <!-- <th>Opponent Rating</th> -->
+                                <th>Opponent Rating</th>  
                                 <th>Opponent</th>
                                 <th>Match Score</th>
-                                <!-- <th>Elo Change</th> -->
+                                <th>Elo Change</th>  
                             </tr>`;
-                    filteredMatches.sort((a, b) => new Date(b.matchDate) - new Date(a.matchDate)); // most recent first
-                    filteredMatches.forEach(match => {
-                        const isPlayer1 = match.player1Id === playerId;
-                        const opponentId = isPlayer1 ? match.player2Id : match.player1Id;
-                        // const opponentRating = isPlayer1 ? match.player2Elo : match.player1Elo;
-                        const playerScore = isPlayer1 ? match.player1Score : match.player2Score;
-                        const opponentScore = isPlayer1 ? match.player2Score : match.player1Score;
-                        // const eloChange = isPlayer1 ? match.player1EloChange : match.player2EloChange;
+            filteredMatches.sort(
+              (a, b) => new Date(b.matchDate) - new Date(a.matchDate)
+            ); // most recent first
+            filteredMatches.forEach((match) => {
+              const isPlayer1 = match.player1Id === playerId;
+              const opponentId = isPlayer1 ? match.player2Id : match.player1Id;
+              const opponentRating = isPlayer1
+                ? match.player2Elo
+                : match.player1Elo;
+              const playerScore = isPlayer1
+                ? match.player1Score
+                : match.player2Score;
+              const opponentScore = isPlayer1
+                ? match.player2Score
+                : match.player1Score;
+              const eloChange = isPlayer1
+                ? match.player1EloChange
+                : match.player2EloChange;
 
-                        table += `<tr>
+              table += `<tr>
                                     <td>${match.matchDate}</td>
-                                   
+                                    <td>${opponentRating}</td>
                                     <td>${opponentId}</td>
                                     <td>${playerScore} - ${opponentScore}</td>
-                                   
+                                    <td>${eloChange}</td>
                                   </tr>`;
-                    });
-                    table += `</table>`;
-                    matchesDiv.innerHTML = table;
-                } else {
-                    matchesDiv.innerHTML = `<p>Error fetching matches: ${xhrMatches.responseText}</p>`;
-                }
             });
-            xhrMatches.open("GET", `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match?playerId=${playerId}`);
-            xhrMatches.send();
-        };
+            table += `</table>`;
+            matchesDiv.innerHTML = table;
+          } else {
+            matchesDiv.innerHTML = `<p>Error fetching matches: ${xhrMatches.responseText}</p>`;
+          }
+        });
+        xhrMatches.open(
+          "GET",
+          `https://zfpizh0oh6.execute-api.us-east-2.amazonaws.com/match?playerId=${playerId}`
+        );
+        xhrMatches.send();
+      };
     </script>
-
-</body>
-
+  </body>
 </html>
